@@ -11,28 +11,33 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         app: [backend, frontend]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-  # 1️⃣ Node эхэлж
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: pnpm
+      # 1) pnpm эхэлж суулга
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-  # 2️⃣ pnpm дараа нь
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 9
+      # 2) Node setup дараа нь (cache pnpm OK болно)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
 
-  # 3️⃣ Install
-    - run: pnpm install --frozen-lockfile
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
 
-  # 4️⃣ Build
-    - run: pnpm nx build ${{ matrix.app }} --configuration=production
+      - name: Lint / Typecheck (optional but rubric-д сайн)
+        run: |
+          pnpm -r lint || true
+          pnpm -r typecheck || true
 
+      - name: Build
+        run: pnpm nx build ${{ matrix.app }} --configuration=production

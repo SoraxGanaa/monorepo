@@ -17,7 +17,6 @@ env:
 jobs:
   push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,11 +47,19 @@ jobs:
       - name: Build & Push Backend
         run: |
           REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-          docker build -f apps/backend/Dockerfile -t "${REGISTRY}/${ECR_BACKEND}:${GITHUB_SHA}" .
+          docker build -f apps/backend/Dockerfile \
+            -t "${REGISTRY}/${ECR_BACKEND}:${GITHUB_SHA}" \
+            -t "${REGISTRY}/${ECR_BACKEND}:latest" \
+            .
           docker push "${REGISTRY}/${ECR_BACKEND}:${GITHUB_SHA}"
+          docker push "${REGISTRY}/${ECR_BACKEND}:latest"
 
       - name: Build & Push Frontend
         run: |
           REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-          docker build -f apps/frontend/Dockerfile -t "${REGISTRY}/${ECR_FRONTEND}:${GITHUB_SHA}" .
+          docker build -f apps/frontend/Dockerfile \
+            -t "${REGISTRY}/${ECR_FRONTEND}:${GITHUB_SHA}" \
+            -t "${REGISTRY}/${ECR_FRONTEND}:latest" \
+            .
           docker push "${REGISTRY}/${ECR_FRONTEND}:${GITHUB_SHA}"
+          docker push "${REGISTRY}/${ECR_FRONTEND}:latest"
