@@ -2,7 +2,9 @@ import { API_BASE_URL } from "@yellow/config";
 import { BusinessListResponseSchema } from "@yellow/contract";
 
 export default async function Page() {
-  const res = await fetch(`${API_BASE_URL}/api/business`, { cache: "no-store" });
+  const base = API_BASE_URL || "";
+  const res = await fetch(`${base}/api/business`, { cache: "no-store" });
+
   const json = await res.json();
 
   const parsed = BusinessListResponseSchema.safeParse(json);
