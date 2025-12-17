@@ -60,6 +60,9 @@ You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx 
 Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
 
 [Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+![CI](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)
+![ECR](https://github.com/<username>/<repo>/actions/workflows/ecr-push.yml/badge.svg)
+
 
 ## Useful links
 CI matrix test

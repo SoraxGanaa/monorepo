@@ -1,0 +1,24 @@
+@'
+# dependencies
+**/node_modules
+.pnpm-store
+.pnpm
+**/.pnpm
+**/.pnp
+**/.yarn
+
+# nx/next build outputs
+dist
+**/dist
+.nx
+**/.next
+**/out
+
+# logs & misc
+**/*.log
+.git
+.vscode
+.env
+.env.*
+.DS_Store
+'@ | Set-Content -Path .dockerignore -Encoding utf8
