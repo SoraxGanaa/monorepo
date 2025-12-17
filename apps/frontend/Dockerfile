@@ -13,6 +13,8 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+# Next standalone-ийн гол нь энэ 2 setting
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm nx reset
 RUN pnpm nx build frontend --configuration=production
 
@@ -22,8 +24,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# ✅ Next standalone output is in apps/frontend/.next (not dist)
+# ✅ standalone root дотор server.js байдаг (тэгэхээр /app/server.js болно)
 COPY --from=build /repo/apps/frontend/.next/standalone ./
+# ✅ static + public
 COPY --from=build /repo/apps/frontend/.next/static ./.next/static
 COPY --from=build /repo/apps/frontend/public ./public
 
