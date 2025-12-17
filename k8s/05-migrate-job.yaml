@@ -22,4 +22,4 @@ spec:
           args:
             - |
               ./node_modules/.bin/prisma migrate deploy
-              ./node_modules/.bin/prisma db seed || true
+              node prisma/seed.js || true
