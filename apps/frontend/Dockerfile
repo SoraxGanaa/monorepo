@@ -24,10 +24,14 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
+# standalone output (Nx dist)
 COPY --from=build /repo/dist/apps/frontend/.next/standalone ./
 COPY --from=build /repo/dist/apps/frontend/.next/static ./.next/static
-COPY --from=build /repo/dist/apps/frontend/public ./public
+
+# ✅ public нь dist-д биш, source дээрээ байдаг
+COPY --from=build /repo/apps/frontend/public ./public
 
 EXPOSE 3000
 CMD ["node", "server.js"]
+
 
