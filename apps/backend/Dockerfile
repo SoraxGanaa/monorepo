@@ -31,18 +31,24 @@ RUN pnpm nx build backend --configuration=production
 # -----------------------
 # Runtime stage
 # -----------------------
+# -----------------------
+# Runtime stage
+# -----------------------
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
+# copy deps
+COPY --from=build /repo/node_modules ./node_modules
+COPY --from=build /repo/package.json ./package.json
+COPY --from=build /repo/pnpm-lock.yaml ./pnpm-lock.yaml
+
 # Copy built backend app
 COPY --from=build /repo/dist/apps/backend ./
 
-# Prisma runtime files (schema + migrations) if you plan to run migrate deploy at runtime
+# Prisma runtime files (schema + migrations)
 COPY --from=build /repo/prisma ./prisma
 
-# If your backend reads env vars from .env, you'll pass them at runtime (docker run -e ...)
 EXPOSE 3333
-
-# Nx esbuild output usually contains main.js at dist/apps/backend/main.js
 CMD ["node", "main.js"]
+
