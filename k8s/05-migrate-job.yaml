@@ -10,10 +10,9 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: 289179428758.dkr.ecr.ap-southeast-1.amazonaws.com/yellow-backend:314c14985c308ae39533d99ba6b774ec2e3634e6
+          image: 289179428758.dkr.ecr.ap-southeast-1.amazonaws.com/yellow-backend:2b9f11b8af137e8ccb042d93e8083c028b56df0e
+          imagePullPolicy: Always
           env:
-            - name: NODE_ENV
-              value: "production"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -22,5 +21,5 @@ spec:
           command: ["sh", "-lc"]
           args:
             - |
-              pnpm prisma migrate deploy
-              pnpm prisma db seed || true
+              ./node_modules/.bin/prisma migrate deploy
+              ./node_modules/.bin/prisma db seed || true
