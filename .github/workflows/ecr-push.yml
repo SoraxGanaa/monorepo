@@ -54,6 +54,7 @@ jobs:
           docker push "${REGISTRY}/${ECR_BACKEND}:${GITHUB_SHA}"
           docker push "${REGISTRY}/${ECR_BACKEND}:latest"
 
+
       - name: Build & Push Frontend
         run: |
           REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
