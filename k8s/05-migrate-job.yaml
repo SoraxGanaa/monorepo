@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: 289179428758.dkr.ecr.ap-southeast-1.amazonaws.com/yellow-backend:2b9f11b8af137e8ccb042d93e8083c028b56df0e
+          image: 289179428758.dkr.ecr.ap-southeast-1.amazonaws.com/yellow-backend:latest
           imagePullPolicy: Always
           env:
             - name: DATABASE_URL
