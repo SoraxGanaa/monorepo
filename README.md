@@ -61,7 +61,7 @@ Nx Console is an editor extension that enriches your developer experience. It le
 
 [Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 ![CI](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)
-![ECR](https://github.com/<username>/<repo>/actions/workflows/ecr-push.yml/badge.svg)
+![ECR](https://github.com/<username>/<repo>/actions/workflows/ecr-push.yml/badge.svg)асдф 
 
 
 ## Useful links
