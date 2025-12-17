@@ -24,11 +24,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# ✅ standalone root дотор server.js байдаг (тэгэхээр /app/server.js болно)
-COPY --from=build /repo/apps/frontend/.next/standalone ./
-# ✅ static + public
-COPY --from=build /repo/apps/frontend/.next/static ./.next/static
-COPY --from=build /repo/apps/frontend/public ./public
+COPY --from=build /repo/dist/apps/frontend/.next/standalone ./
+COPY --from=build /repo/dist/apps/frontend/.next/static ./.next/static
+COPY --from=build /repo/dist/apps/frontend/public ./public
 
 EXPOSE 3000
 CMD ["node", "server.js"]
+
