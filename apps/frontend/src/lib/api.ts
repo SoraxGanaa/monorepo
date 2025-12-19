@@ -1,13 +1,7 @@
-// apps/frontend/src/app/lib/api.ts
 type FetchOptions = RequestInit & { timeoutMs?: number };
 
-function withTimeout(
-  signal: AbortSignal | null | undefined,
-  timeoutMs: number
-) {
-  if (!timeoutMs) {
-    return { signal, cleanup: () => { /* empty */ } };
-  }
+function withTimeout(signal: AbortSignal | null | undefined, timeoutMs: number) {
+  if (!timeoutMs) return { signal, cleanup: () => {} };
 
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), timeoutMs);
@@ -16,23 +10,23 @@ function withTimeout(
     signal.addEventListener("abort", () => controller.abort(), { once: true });
   }
 
-  return {
-    signal: controller.signal,
-    cleanup: () => clearTimeout(t),
-  };
+  return { signal: controller.signal, cleanup: () => clearTimeout(t) };
 }
 
 export function getApiBaseUrl() {
+  const isServer = typeof window === "undefined";
+
+  // SSR: http://backend:3333/api
   const internal =
     process.env.INTERNAL_API_BASE_URL ??
     process.env.API_BASE_URL ??
     "";
 
+  // Client: /api (ingress)
   const publicBase =
     process.env.NEXT_PUBLIC_API_BASE_URL ??
     "/api";
 
-  const isServer = typeof window === "undefined";
   const base = isServer ? internal : publicBase;
 
   if (!base) {

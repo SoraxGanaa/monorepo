@@ -1,15 +1,15 @@
-// apps/frontend/src/app/page.tsx
 import { BusinessListResponseSchema } from "@yellow/contract";
-import { apiFetch } from "../lib/api"; // Хэрвээ path зөрвөл доорх note-г үз
+import { apiFetch } from "../lib/api";
 
 export default async function Page() {
   let res: Response;
 
   try {
-    // Backend endpoint чинь бодитоор "/business" эсвэл "/api/business" юу гэдгээс хамаарна.
-    // Чиний ingress /api -> backend гэж байгаа тул browser талд "/api/business" зөв.
-    // SSR талд INTERNAL_API_BASE_URL дээр backend дотор "/business" байвал ингэж дуудна:
-
+    // INTERNAL_API_BASE_URL=http://backend:3333/api
+    // NEXT_PUBLIC_API_BASE_URL=/api
+    // => "/business" дуудвал:
+    // SSR: http://backend:3333/api/business
+    // Client: /api/business
     res = await apiFetch("/business");
   } catch (e: any) {
     return (
@@ -20,13 +20,14 @@ export default async function Page() {
     );
   }
 
-  // Backend 404/500 өгвөл UI дээр харуулъя
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     return (
       <main style={{ padding: 24 }}>
         <h1>Businesses</h1>
-        <pre>Backend returned {res.status} {res.statusText}</pre>
+        <pre>
+          Backend returned {res.status} {res.statusText}
+        </pre>
         <pre style={{ whiteSpace: "pre-wrap" }}>{text.slice(0, 2000)}</pre>
       </main>
     );
@@ -49,7 +50,6 @@ export default async function Page() {
   return (
     <main style={{ padding: 24 }}>
       <h1>Businesses</h1>
-
       <div style={{ display: "grid", gap: 12 }}>
         {data.map((b) => (
           <div
