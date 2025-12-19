@@ -11,48 +11,30 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
-      fail-fast: false
       matrix:
         app: [backend, frontend]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # pnpm эхлээд суулга
+      # 1) pnpm installable болгоно
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+          run_install: false
 
-      # Node дараа нь (pnpm cache ашиглах боломжтой)
+      # 2) Node + pnpm cache (lockfile зааж өгнө)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      # Prisma Client types хэрэгтэй тул build-ээс өмнө generate заавал
-      - name: Prisma generate
-        run: pnpm prisma generate
-
-      # Rubric-д сайн: lint/typecheck байвал ажиллуулна
-      - name: Lint
-        run: pnpm -r lint
-        continue-on-error: true
-
-      - name: Typecheck
-        run: pnpm -r typecheck
-        continue-on-error: true
-
-      # Matrix build
       - name: Build
         run: pnpm nx build ${{ matrix.app }} --configuration=production

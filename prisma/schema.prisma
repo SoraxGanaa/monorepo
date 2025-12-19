@@ -16,24 +16,39 @@ model Category {
 }
 
 model Business {
-  id           String   @id @default(cuid())
-  name         String   @unique
-  description  String?
-  address      String
-  phone        String
-  email        String?
-  website      String?
-  location     String?
-  facebookUrl  String?
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  address     String?
+  phone       String?
+  email       String?
+  website     String?
+  location    String?
+  facebookUrl String?
   instagramUrl String?
-  timetable    String?
-  logoUrl      String?
-
-  categoryId   String
-  category     Category @relation(fields: [categoryId], references: [id])
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([categoryId])
+  timetable   String?
+  logoUrl     String?
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
+
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id        String  @id @default(cuid())
+  githubId  String  @unique
+  name      String?
+  email     String?
+  avatarUrl String?
+  role      Role    @default(user)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
-import { BusinessListResponseSchema } from "@yellow/contract"; // alias чинь workspace name-ээс хамаарна
+import { BusinessListResponseSchema } from "@yellow/contract"; 
 
 const businessRoutes: FastifyPluginAsync = async (app) => {
   app.get("/api/business", async (req, reply) => {
