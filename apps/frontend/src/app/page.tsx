@@ -1,3 +1,5 @@
+// frontend/src/app/page.tsx
+
 import { BusinessListResponseSchema } from "@yellow/contract";
 import { apiFetch } from "../lib/api";
 
@@ -5,11 +7,8 @@ export default async function Page() {
   let res: Response;
 
   try {
-    // INTERNAL_API_BASE_URL=http://backend:3333/api
-    // NEXT_PUBLIC_API_BASE_URL=/api
-    // => "/business" дуудвал:
-    // SSR: http://backend:3333/api/business
-    // Client: /api/business
+    // SSR: INTERNAL_API_BASE_URL=http://backend:3333/api  => http://backend:3333/api/business
+    // Client: NEXT_PUBLIC_API_BASE_URL=/api              => /api/business
     res = await apiFetch("/business");
   } catch (e: any) {
     return (
@@ -50,6 +49,7 @@ export default async function Page() {
   return (
     <main style={{ padding: 24 }}>
       <h1>Businesses</h1>
+
       <div style={{ display: "grid", gap: 12 }}>
         {data.map((b) => (
           <div
