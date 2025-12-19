@@ -40,3 +40,6 @@ spec:
     - name: http
       port: 80
       targetPort: 3333
+    - name: direct
+      port: 3333
+      targetPort: 3333

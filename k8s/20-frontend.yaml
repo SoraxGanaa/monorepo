@@ -16,6 +16,9 @@ spec:
       containers:
         - name: frontend
           image: 289179428758.dkr.ecr.ap-southeast-1.amazonaws.com/yellow-frontend:314c14985c308ae39533d99ba6b774ec2e3634e6
+          workingDir: /app/apps/frontend
+          command: ["node"]
+          args: ["server.js"]
           ports:
             - containerPort: 3000
           env:
@@ -23,6 +26,16 @@ spec:
               value: "production"
             - name: PORT
               value: "3000"
+
+            # ✅ SSR / server-side calls inside cluster
+            - name: INTERNAL_API_BASE_URL
+              value: "http://backend:3333"
+            - name: API_BASE_URL
+              value: "http://backend:3333"
+
+            # ✅ Client-side calls via ALB Ingress (/api -> backend)
+            - name: NEXT_PUBLIC_API_BASE_URL
+              value: "/api"
 ---
 apiVersion: v1
 kind: Service
