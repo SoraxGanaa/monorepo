@@ -8,9 +8,11 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
 spec:
+  ingressClassName: alb  
   rules:
     - http:
         paths:
+          # 1️⃣ NextAuth FIRST
           - path: /api/auth/*
             pathType: Prefix
             backend:
@@ -19,6 +21,7 @@ spec:
                 port:
                   number: 80
 
+          # 2️⃣ Backend API
           - path: /api/*
             pathType: Prefix
             backend:
@@ -27,6 +30,7 @@ spec:
                 port:
                   number: 80
 
+          # 3️⃣ Frontend pages
           - path: /*
             pathType: Prefix
             backend:
